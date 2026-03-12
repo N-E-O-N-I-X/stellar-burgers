@@ -19,8 +19,12 @@ import { NotFound404 } from '../../pages/not-found-404';
 import { Modal } from '../modal';
 import { AppHeader } from '../app-header';
 import { Preloader } from '@ui';
+import { IngredientDetails } from '../ingredient-details';
+import { OrderInfo } from '../order-info';
 import { useDispatch, useSelector } from '../../services/store';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { fetchUser, setAuthChecked } from '../../services/slices/userSlice';
+import { getCookie } from '../../utils/cookie';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -30,14 +34,20 @@ const AppContent = () => {
   const dispatch = useDispatch();
 
   const { isLoading, error } = useSelector((state) => state.ingredients);
+  const { isAuthChecked } = useSelector((state) => state.user);
 
   const backgroundLocation = location.state?.backgroundLocation;
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    if (getCookie('accessToken')) {
+      dispatch(fetchUser());
+    } else {
+      dispatch(setAuthChecked(true));
+    }
   }, [dispatch]);
 
-  if (isLoading) return <Preloader />;
+  if (!isAuthChecked || isLoading) return <Preloader />;
 
   if (error) {
     return (
@@ -53,23 +63,23 @@ const AppContent = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:number' element={<div>Страница заказа</div>} />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
-          path='/ingredients/:id'
-          element={<div>Страница ингредиента</div>}
+          path='/login'
+          element={<ProtectedRoute onlyUnAuth element={<Login />} />}
         />
-        <Route path='/login' element={<ProtectedRoute element={<Login />} />} />
         <Route
           path='/register'
-          element={<ProtectedRoute element={<Register />} />}
+          element={<ProtectedRoute onlyUnAuth element={<Register />} />}
         />
         <Route
           path='/forgot-password'
-          element={<ProtectedRoute element={<ForgotPassword />} />}
+          element={<ProtectedRoute onlyUnAuth element={<ForgotPassword />} />}
         />
         <Route
           path='/reset-password'
-          element={<ProtectedRoute element={<ResetPassword />} />}
+          element={<ProtectedRoute onlyUnAuth element={<ResetPassword />} />}
         />
         <Route
           path='/profile'
@@ -81,11 +91,8 @@ const AppContent = () => {
         />
         <Route
           path='/profile/orders/:number'
-          element={
-            <ProtectedRoute element={<div>Страница заказа профиля</div>} />
-          }
+          element={<ProtectedRoute element={<OrderInfo />} />}
         />
-
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 
@@ -95,7 +102,7 @@ const AppContent = () => {
             path='/ingredients/:id'
             element={
               <Modal title='Детали ингредиента' onClose={() => navigate(-1)}>
-                <div>IngredientDetails (заглушка)</div>
+                <IngredientDetails />
               </Modal>
             }
           />
@@ -103,7 +110,7 @@ const AppContent = () => {
             path='/feed/:number'
             element={
               <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                <div>OrderInfo (заглушка)</div>
+                <OrderInfo />
               </Modal>
             }
           />
@@ -113,7 +120,7 @@ const AppContent = () => {
               <ProtectedRoute
                 element={
                   <Modal title='Детали заказа' onClose={() => navigate(-1)}>
-                    <div>OrderInfo (заглушка)</div>
+                    <OrderInfo />
                   </Modal>
                 }
               />
