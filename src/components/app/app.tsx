@@ -36,7 +36,7 @@ const AppContent = () => {
   const { isLoading, error } = useSelector((state) => state.ingredients);
   const { isAuthChecked } = useSelector((state) => state.user);
 
-  const backgroundLocation = location.state?.backgroundLocation;
+  const backgroundLocation = location.state?.background;
 
   useEffect(() => {
     dispatch(fetchIngredients());

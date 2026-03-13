@@ -38,6 +38,7 @@ export const BurgerConstructor: FC = () => {
         dispatch(
           setOrderModalData({ ...res.order, ingredients: ingredientIds })
         );
+        dispatch(resetConstructor());
         dispatch(fetchFeeds());
         dispatch(fetchOrders());
       })
@@ -47,7 +48,7 @@ export const BurgerConstructor: FC = () => {
   };
 
   const closeOrderModal = () => {
-    dispatch(resetConstructor());
+    dispatch(setOrderModalData(null));
   };
 
   const price = useMemo(
