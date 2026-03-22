@@ -1,13 +1,10 @@
 import ingredientsReducer from '../services/slices/ingredientsSlice';
-import { fetchIngredients } from '../services/slices/ingredientsSlice';
+import { 
+  fetchIngredients,
+  initialState
+} from '../services/slices/ingredientsSlice';
 
 describe('ingredients slice extraReducers', () => {
-  const initialState = {
-    ingredients: [],
-    isLoading: false,
-    error: null
-  };
-
   test('fetchIngredients.pending устанавливает isLoading = true и очищает error', () => {
     const state = ingredientsReducer(initialState, { 
       type: fetchIngredients.pending.type 

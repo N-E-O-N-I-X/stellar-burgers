@@ -1,13 +1,10 @@
 import ordersReducer from '../services/slices/ordersSlice';
-import { fetchOrders } from '../services/slices/ordersSlice'
+import { 
+  fetchOrders, 
+  initialState 
+} from '../services/slices/ordersSlice'
 
 describe('orders slice extraReducers', () => {
-  const initialState = {
-    orders: [],
-    isLoading: false,
-    error: null
-  };
-
   test('fetchOrders.pending устанавливает isLoading = true и очищает error', () => {
     const state = ordersReducer(initialState, { 
       type: fetchOrders.pending.type 

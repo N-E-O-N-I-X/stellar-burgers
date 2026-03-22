@@ -1,14 +1,10 @@
 import feedReducer from '../services/slices/feedSlice';
-import { fetchFeeds } from '../services/slices/feedSlice';
+import { 
+  fetchFeeds,
+  initialState
+} from '../services/slices/feedSlice';
 
 describe('feed slice extraReducers', () => {
-  const initialState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    isLoading: false,
-    error: null
-  };
 
   test('fetchFeeds.pending устанавливает isLoading = true и очищает error', () => {
     const state = feedReducer(initialState, { 

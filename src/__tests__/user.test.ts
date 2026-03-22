@@ -4,18 +4,12 @@ import {
   loginUser, 
   registerUser, 
   updateUser, 
-  logoutUser 
+  logoutUser,
+  initialState
 } from '../services/slices/userSlice';
 
 describe('user slice', () => {
-  const initialState = {
-    user: null,
-    isAuthChecked: false,
-    isAuthenticated: false,
-    error: null
-  };
-
-  test('setAuthChecked устанавливает isAuthChecked', () => {
+test('setAuthChecked устанавливает isAuthChecked', () => {
     const state = userReducer(initialState, setAuthChecked(true));
     expect(state.isAuthChecked).toBe(true);
   });
