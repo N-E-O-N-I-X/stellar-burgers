@@ -40,8 +40,8 @@ const burgerConstructorSlice = createSlice({
     resetConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
-      state.orderRequest = false;
-      state.orderModalData = null;
+      // state.orderRequest = false;
+      // state.orderModalData = null;
     },
     moveIngredient: (
       state,
