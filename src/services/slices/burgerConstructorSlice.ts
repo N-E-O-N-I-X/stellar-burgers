@@ -9,7 +9,7 @@ type TBurgerConstructorState = {
   orderModalData: TOrder | null;
 };
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
   bun: null,
   ingredients: [],
   orderRequest: false,
@@ -40,8 +40,8 @@ const burgerConstructorSlice = createSlice({
     resetConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
-      state.orderRequest = false;
-      state.orderModalData = null;
+      // state.orderRequest = false;
+      // state.orderModalData = null;
     },
     moveIngredient: (
       state,
